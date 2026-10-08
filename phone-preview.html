@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>小迹 · 手机预览</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;overflow:auto}body{background:#e7e9e5;font-family:"Microsoft YaHei",sans-serif;color:#445044;display:flex;flex-direction:column;align-items:center}
+header{height:60px;flex-shrink:0;width:100%;display:flex;align-items:center;justify-content:center;gap:12px;padding:10px;font-size:12px}header strong{font-size:14px}header span{color:#879083}header a{color:#447d64;text-decoration:none;background:#f6f7f3;padding:8px 12px;border-radius:20px}
+main{width:100%;min-width:437px;display:flex;align-items:flex-start;justify-content:center;padding:12px 12px 20px}.phone-space{position:relative;flex-shrink:0;width:413px;height:894px}.phone{position:absolute;top:0;left:0;transform-origin:top left;width:413px;height:894px;background:#252a25;border:10px solid #252a25;border-radius:40px;box-shadow:0 14px 44px #29342930;overflow:hidden}iframe{display:block;width:393px;height:874px;border:0;background:#f6f7f5;border-radius:29px}button{font:inherit;border:0;background:#f6f7f3;padding:8px 12px;color:#447d64;border-radius:20px;cursor:pointer}
+@media(max-width:460px){header{height:72px;flex-wrap:wrap;gap:6px}header span{font-size:10px}}
+</style></head><body>
+<header><strong>手机预览</strong><span>固定视口 393 × 874 · 不缩放</span><button id="refresh" type="button">刷新</button><a href="./index.html#/diet" target="_blank">完整窗口</a></header>
+<main><div class="phone-space"><div class="phone"><iframe title="小迹手机界面" src="./index.html?v=phone-preview-1#/diet"></iframe></div></div></main>
+<script>
+const main=document.querySelector('main'),space=document.querySelector('.phone-space'),phone=document.querySelector('.phone'),frame=document.querySelector('iframe');
+document.querySelector('#refresh').addEventListener('click',()=>frame.contentWindow.location.reload());
+</script></body></html>
