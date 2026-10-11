@@ -16,12 +16,13 @@
     <link rel="apple-touch-icon" href="./icons/icon-192.png" />
     <link rel="manifest" href="./manifest.webmanifest" />
     <title>小迹 · 个人健康记录</title>
-    <script>\n      (function(){\n        if ("serviceWorker" in navigator && !sessionStorage.getItem("xj-sw-reset-v1")) {\n          sessionStorage.setItem("xj-sw-reset-v1", "1");\n          Promise.all([navigator.serviceWorker.getRegistrations().then(function(rs){return Promise.all(rs.map(function(r){return r.unregister();}));}), typeof caches !== "undefined" ? caches.keys().then(function(ks){return Promise.all(ks.map(function(k){return caches.delete(k);}));}) : Promise.resolve()]).then(function(){ location.reload(); });\n        }\n      })();\n    </script>\n    <script type="module" crossorigin src="./assets/index-8a58dc2e.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-f2a76958.css">
+    <script>\n      (function(){\n        if ("serviceWorker" in navigator && !sessionStorage.getItem("xj-sw-reset-v1")) {\n          sessionStorage.setItem("xj-sw-reset-v1", "1");\n          Promise.all([navigator.serviceWorker.getRegistrations().then(function(rs){return Promise.all(rs.map(function(r){return r.unregister();}));}), typeof caches !== "undefined" ? caches.keys().then(function(ks){return Promise.all(ks.map(function(k){return caches.delete(k);}));}) : Promise.resolve()]).then(function(){ location.reload(); });\n        }\n      })();\n    </script>\n    <script type="module" crossorigin src="./assets/index-342afb73.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-12d60e96.css">
   </head>
   <body>
     <div id="root"></div>
     <noscript>本应用需要启用 JavaScript 才能使用。</noscript>
   </body>
 </html>
+
 
