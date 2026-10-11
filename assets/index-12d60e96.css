@@ -28,3 +28,21 @@
 .home-calendar-selection span{display:block;margin-top:2px;color:#7d8982;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .home-calendar-selection>button{flex:0 0 auto;min-height:30px;padding:4px 10px;border-radius:15px;background:#e1eee7;color:#2f7d63;font-size:11px;font-weight:700}
 @media(max-width:380px){.home-calendar{padding-inline:7px}.home-calendar-day{min-height:58px}.home-calendar-tabs button{padding-inline:9px}.home-calendar-marks i{font-size:7px}}
+
+.home-calendar-day.phase-recorded-period{background:#f8d3dc;color:#9d2847}
+.home-calendar-day.phase-predicted-period{background:#fcebef;color:#b95a72}
+.home-calendar-day.phase-follicular{background:#eaf3fb;color:#39749d}
+.home-calendar-day.phase-estimated-ovulation{background:#eee8fa;color:#7256a5}
+.home-calendar-day.phase-luteal{background:#fff3dc;color:#986c25}
+.home-calendar-day.has-sleep-heat{background:rgba(104,88,184,var(--sleep-alpha));color:#493c8b}
+.home-calendar-day.has-sleep-heat .home-calendar-marks i{background:rgba(255,255,255,.66);color:#4f4195}
+.home-calendar-day.is-selected{box-shadow:inset 0 0 0 2px #2f7d63}
+.home-calendar-day.is-selected:not(.is-today) .home-calendar-number{box-shadow:none;color:inherit}
+.home-calendar-marks .mark-training:first-child{background:#43845f;color:#fff;font-weight:750}
+.home-calendar-marks .mark-diet-0{background:#fff0da;color:#b96e16}
+.home-calendar-marks .mark-diet-1{background:#e8efff;color:#4e6fbe}
+.home-calendar-marks .mark-diet-2{background:#ffe6ea;color:#c4465d}
+.home-calendar-legend{display:flex;align-items:center;justify-content:center;gap:6px;margin:4px 3px 0;color:#87918b;font-size:8px}
+.sleep-legend i{display:block;width:72px;height:7px;border-radius:4px;background:linear-gradient(90deg,rgba(104,88,184,.08),rgba(104,88,184,.4))}
+.cycle-legend span{padding:2px 5px;border-radius:5px}
+.cycle-legend span:nth-child(1){background:#f8d3dc;color:#9d2847}.cycle-legend span:nth-child(2){background:#eaf3fb;color:#39749d}.cycle-legend span:nth-child(3){background:#eee8fa;color:#7256a5}.cycle-legend span:nth-child(4){background:#fff3dc;color:#986c25}
