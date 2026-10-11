@@ -46,3 +46,21 @@
 .sleep-legend i{display:block;width:72px;height:7px;border-radius:4px;background:linear-gradient(90deg,rgba(104,88,184,.08),rgba(104,88,184,.4))}
 .cycle-legend span{padding:2px 5px;border-radius:5px}
 .cycle-legend span:nth-child(1){background:#f8d3dc;color:#9d2847}.cycle-legend span:nth-child(2){background:#eaf3fb;color:#39749d}.cycle-legend span:nth-child(3){background:#eee8fa;color:#7256a5}.cycle-legend span:nth-child(4){background:#fff3dc;color:#986c25}
+
+.home-calendar-day.phase-recorded-period,.home-calendar-day.phase-predicted-period,.home-calendar-day.phase-follicular,.home-calendar-day.phase-estimated-ovulation,.home-calendar-day.phase-luteal{border-radius:0!important}
+.home-calendar-day.phase-start{border-radius:11px 0 0 11px!important}
+.home-calendar-day.phase-end{border-radius:0 11px 11px 0!important}
+.home-calendar-marks i.mark-diet-0,.home-calendar-marks i.mark-diet-1,.home-calendar-marks i.mark-diet-2{position:relative;padding:2px 3px;overflow:hidden;background:linear-gradient(90deg,color-mix(in srgb,var(--mark) 30%,white) 0 var(--fill),#eef0f2 var(--fill) 100%);color:var(--mark)}
+.diet-bar-label{position:relative;z-index:1}
+
+.home-calendar-day.phase-recorded-period,.home-calendar-day.phase-predicted-period,.home-calendar-day.phase-follicular,.home-calendar-day.phase-estimated-ovulation,.home-calendar-day.phase-luteal{border-radius:0!important}
+.home-calendar-day.phase-start{border-radius:11px 0 0 11px!important}
+.home-calendar-day.phase-end{border-radius:0 11px 11px 0!important}
+.home-calendar-marks i.mark-diet-0,.home-calendar-marks i.mark-diet-1,.home-calendar-marks i.mark-diet-2{position:relative;padding:2px 3px;overflow:hidden;background:linear-gradient(90deg,color-mix(in srgb,var(--mark) 30%,white) 0 var(--fill),#eef0f2 var(--fill) 100%);color:var(--mark)}
+.diet-bar-label{position:relative;z-index:1}
+
+.home-calendar-day.phase-recorded-period,.home-calendar-day.phase-predicted-period,.home-calendar-day.phase-follicular,.home-calendar-day.phase-estimated-ovulation,.home-calendar-day.phase-luteal{border-radius:0!important}
+.home-calendar-day.phase-start{border-radius:11px 0 0 11px!important}
+.home-calendar-day.phase-end{border-radius:0 11px 11px 0!important}
+.home-calendar-marks i.mark-diet-0,.home-calendar-marks i.mark-diet-1,.home-calendar-marks i.mark-diet-2{position:relative;padding:2px 3px;overflow:hidden;background:linear-gradient(90deg,color-mix(in srgb,var(--mark) 30%,white) 0 var(--fill),#eef0f2 var(--fill) 100%);color:var(--mark)}
+.diet-bar-label{position:relative;z-index:1}
