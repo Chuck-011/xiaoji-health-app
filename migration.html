@@ -1,0 +1,10 @@
+<!doctype html><meta charset="utf-8"><title>正在恢复本地数据</title>
+<p>正在恢复账户连接…</p>
+<script>
+const storage={};
+try {
+ for(const key of ['xiaojii.ghConfig','xiaojii.dataAccessKey']){const value=localStorage.getItem(key);if(value&&value.length<8192)storage[key]=value;}
+} catch(error) { /* Storage unavailable: continue to online page. */ }
+// Images and records remain untouched; synced copies are restored from the cloud.
+window.migrationExport=JSON.stringify({storage});
+</script>
