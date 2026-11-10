@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>同济 AI 连接诊断</title>
+<style>
+body{font-family:system-ui,-apple-system,sans-serif;margin:0;padding:16px;background:#f5f6f8;color:#1c1e21;max-width:640px;margin:0 auto}
+h1{font-size:20px}
+p{font-size:13px;color:#555}
+button{width:100%;padding:14px;font-size:16px;border:0;border-radius:10px;background:#2f6fed;color:#fff;font-weight:600}
+ol{padding-left:18px}
+li{background:#fff;border-radius:10px;padding:10px 12px;margin:10px 0;font-size:13px;line-height:1.5;word-break:break-all;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.ok{color:#0a7d38;font-weight:700}
+.bad{color:#c0392b;font-weight:700}
+small{color:#777}
+</style>
+</head>
+<body>
+<h1>同济 AI 连接诊断</h1>
+<p>请在「和 AI 一起估算」报错的同一个浏览器里打开本页，点开始测试，然后截图发回。三个请求都不携带真实密钥，不会消耗额度。</p>
+<button id="go">开始测试</button>
+<ol id="out"></ol>
+<script>
+const EP='https://agi.tongji.edu.cn/v1';
+const out=document.getElementById('out');
+function add(html){const li=document.createElement('li');li.innerHTML=html;out.appendChild(li);return li;}
+function env(){
+  let sw='无';
+  if(navigator.serviceWorker&&navigator.serviceWorker.controller)sw='有（'+navigator.serviceWorker.controller.scriptURL+'）';
+  add('<b>浏览器：</b>'+navigator.userAgent+'<br><b>Service Worker：</b>'+sw+'<br><b>页面来源：</b>'+location.origin);
+}
+async function test(name,path,opts){
+  const li=add('<b>'+name+'：</b>进行中…');
+  const t0=Date.now();
+  try{
+    const r=await fetch(EP+path,opts);
+    const body=await r.text();
+    li.innerHTML='<b>'+name+'：</b><span class="ok">请求完成</span> HTTP '+r.status+' · '+(Date.now()-t0)+'ms<br><small>'+body.slice(0,160).replace(/</g,'&lt;')+'</small>';
+  }catch(e){
+    li.innerHTML='<b>'+name+'：</b><span class="bad">fetch 失败</span> '+e.name+' · '+(Date.now()-t0)+'ms<br><small>'+String(e.message||e).slice(0,160)+'</small>';
+  }
+}
+document.getElementById('go').addEventListener('click',()=>{
+  out.innerHTML='';
+  env();
+  test('① GET /models（无密钥）','/models');
+  test('② POST /chat/completions（无密钥）','/chat/completions',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'GLM-5.3-Flash',messages:[{role:'user',content:'诊断测试'}]})});
+  test('③ POST 带 Authorization 头（假密钥）','/chat/completions',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer diag-test-invalid'},body:JSON.stringify({model:'GLM-5.3-Flash',messages:[{role:'user',content:'诊断测试'}]})});
+});
+</script>
+</body>
+</html>
