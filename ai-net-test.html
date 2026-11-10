@@ -8,7 +8,8 @@
 body{font-family:system-ui,-apple-system,sans-serif;margin:0;padding:16px;background:#f5f6f8;color:#1c1e21;max-width:640px;margin:0 auto}
 h1{font-size:20px}
 p{font-size:13px;color:#555}
-button{width:100%;padding:14px;font-size:16px;border:0;border-radius:10px;background:#2f6fed;color:#fff;font-weight:600}
+button{width:100%;padding:14px;font-size:16px;border:0;border-radius:10px;background:#2f6fed;color:#fff;font-weight:600;margin-top:10px}
+button.warn{background:#c0392b}
 ol{padding-left:18px}
 li{background:#fff;border-radius:10px;padding:10px 12px;margin:10px 0;font-size:13px;line-height:1.5;word-break:break-all;box-shadow:0 1px 2px rgba(0,0,0,.06)}
 .ok{color:#0a7d38;font-weight:700}
@@ -18,17 +19,19 @@ small{color:#777}
 </head>
 <body>
 <h1>同济 AI 连接诊断</h1>
-<p>请在「和 AI 一起估算」报错的同一个浏览器里打开本页，点开始测试，然后截图发回。三个请求都不携带真实密钥，不会消耗额度。</p>
+<p>请用<strong>安装小迹的那个浏览器</strong>（自带浏览器）打开本页，不要在微信里打开。点开始测试后截图发回。①②③不带真实密钥；④用本机保存的配置发一条极小请求（约耗几十个 token）。</p>
 <button id="go">开始测试</button>
+<button id="unsw" class="warn">解除本站 Service Worker 并重载</button>
 <ol id="out"></ol>
 <script>
 const EP='https://agi.tongji.edu.cn/v1';
 const out=document.getElementById('out');
 function add(html){const li=document.createElement('li');li.innerHTML=html;out.appendChild(li);return li;}
+function esc(s){return String(s).slice(0,180).replace(/</g,'&lt;');}
 function env(){
   let sw='无';
   if(navigator.serviceWorker&&navigator.serviceWorker.controller)sw='有（'+navigator.serviceWorker.controller.scriptURL+'）';
-  add('<b>浏览器：</b>'+navigator.userAgent+'<br><b>Service Worker：</b>'+sw+'<br><b>页面来源：</b>'+location.origin);
+  add('<b>浏览器：</b>'+esc(navigator.userAgent)+'<br><b>Service Worker：</b>'+sw+'<br><b>页面来源：</b>'+location.origin);
 }
 async function test(name,path,opts){
   const li=add('<b>'+name+'：</b>进行中…');
@@ -36,9 +39,23 @@ async function test(name,path,opts){
   try{
     const r=await fetch(EP+path,opts);
     const body=await r.text();
-    li.innerHTML='<b>'+name+'：</b><span class="ok">请求完成</span> HTTP '+r.status+' · '+(Date.now()-t0)+'ms<br><small>'+body.slice(0,160).replace(/</g,'&lt;')+'</small>';
+    li.innerHTML='<b>'+name+'：</b><span class="ok">请求完成</span> HTTP '+r.status+' · '+(Date.now()-t0)+'ms<br><small>'+esc(body)+'</small>';
   }catch(e){
-    li.innerHTML='<b>'+name+'：</b><span class="bad">fetch 失败</span> '+e.name+' · '+(Date.now()-t0)+'ms<br><small>'+String(e.message||e).slice(0,160)+'</small>';
+    li.innerHTML='<b>'+name+'：</b><span class="bad">fetch 失败</span> '+e.name+' · '+(Date.now()-t0)+'ms<br><small>'+esc(e.message||e)+'</small>';
+  }
+}
+async function testReal(){
+  const li=add('<b>④ 用本机配置真实请求：</b>进行中…');
+  let cfg=null;
+  try{cfg=JSON.parse(localStorage.getItem('xiaojii.aiDirectConfig')||'null');}catch{}
+  if(!cfg||!cfg.endpoint||!cfg.apiKey){li.innerHTML='<b>④ 用本机配置真实请求：</b><span class="bad">本机没有保存直连配置</span>（可能用的不是同一个浏览器，或配置存在别处）';return;}
+  const t0=Date.now();
+  try{
+    const r=await fetch(cfg.endpoint.replace(/\/$/,'')+'/chat/completions',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+cfg.apiKey},body:JSON.stringify({model:cfg.model,messages:[{role:'user',content:'请只回复两个字：正常'}],stream:false,max_tokens:16})});
+    const body=await r.text();
+    li.innerHTML='<b>④ 用本机配置真实请求：</b><span class="ok">请求完成</span> HTTP '+r.status+' · '+(Date.now()-t0)+'ms · 模型 '+esc(cfg.model)+'<br><small>'+esc(body)+'</small>';
+  }catch(e){
+    li.innerHTML='<b>④ 用本机配置真实请求：</b><span class="bad">fetch 失败</span> '+e.name+' · '+(Date.now()-t0)+'ms<br><small>'+esc(e.message||e)+'</small>';
   }
 }
 document.getElementById('go').addEventListener('click',()=>{
@@ -47,6 +64,11 @@ document.getElementById('go').addEventListener('click',()=>{
   test('① GET /models（无密钥）','/models');
   test('② POST /chat/completions（无密钥）','/chat/completions',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'GLM-5.3-Flash',messages:[{role:'user',content:'诊断测试'}]})});
   test('③ POST 带 Authorization 头（假密钥）','/chat/completions',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer diag-test-invalid'},body:JSON.stringify({model:'GLM-5.3-Flash',messages:[{role:'user',content:'诊断测试'}]})});
+  void testReal();
+});
+document.getElementById('unsw').addEventListener('click',()=>{
+  if(!navigator.serviceWorker){alert('此浏览器不支持 Service Worker');return;}
+  navigator.serviceWorker.getRegistrations().then(rs=>Promise.all(rs.map(r=>r.unregister()))).then(n=>{alert('已解除 '+n+' 个 Service Worker，页面将重载');location.reload();}).catch(e=>alert('解除失败：'+e));
 });
 </script>
 </body>
